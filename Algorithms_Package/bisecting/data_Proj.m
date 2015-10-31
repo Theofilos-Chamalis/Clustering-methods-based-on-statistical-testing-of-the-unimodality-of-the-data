@@ -1,11 +1,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
 % Calculates the projections of the data set V onto the lines chosen
 % and returns the projected points as vectors in the cell named
 % proj_Cell. Pca_trigger decides whether pca projections of the data
 % will be used, axis_trigger whether axis projections will be used,
 % randproj_trigger whether random projections will be used and
 % randproj_number how many of them.
-% Copyright (C) 2015, Chamalis Theofilos.
+%------------
+% Copyright (C) 2014-2015, Chamalis Theofilos.
+%------------
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

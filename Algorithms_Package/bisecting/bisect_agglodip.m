@@ -1,5 +1,6 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
-% This function implements the bisecting k-means reverse (merging/agglomerative version) clustering algorithm.
+% This function implements the agglodip (agglomerative dip-means) hierarchical clustering algorithm.
 %------------
 % Input parameters
 % X:           Data vectors (rows), 
@@ -32,20 +33,22 @@
 % R_ref:       the partition of data if refinement is applied 
 % min_err_ref: the numerical error corresponding to the R_ref partition
 %------------
-% Copyright (C) 2009-2013, Argyris Kalogeratos.
+% Copyright (C) 2014-2015, Chamalis Theofilos.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [R, min_err, R_ref, min_err_ref] = bisect_agglodip (X, numberOfInitialClusters, varargin)
 
+    % load the uniform distribution bootstrap samples that were generated
+    % offline which will be used by the agglodip algorithm
     n = size(X,1);
     load('unifpdfbootext.mat','boot_dips');
 
     initclNo = numberOfInitialClusters;
     fprintf('\nThe initial number of clusters is: %d\n',initclNo);
     
-    
-    GRAPH_FLAG = 0;             % Use the connected components of the graph produced by the pval values
-    CENTROID_TO_ALL_FLAG = 0;   % Use only the centroids of each of the 2 clusters to calculate the distances
+    GRAPH_FLAG = 0;                   % Use the connected components of the graph produced by the pval values of the first iteration to cluster the data
+    CENTROID_TO_ALL_FLAG = 0;   % Use only the centroids of each of the 2 clusters to calculate the distances between them and the rest of the 2 clusters data
 	PRINT_EACH_STEP_FLAG = 0;   % Plot the clustering that dip-means reverse produces after each merge (48 initial clusters limit)
 
 
@@ -67,7 +70,7 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglodip (X, numberOfInitialC
     end
 
     [found, smallest_cluster, varargin] = parsepar(varargin, 'smallest_cluster');
-    if (~found), smallest_cluster = 6; end   % the cluster must have at least this number of object to be split candidate
+    if (~found), smallest_cluster = 6; end   % the cluster must have at least this number of objects
 
     [found, attempts, varargin] = parsepar(varargin, 'attempts');
     if (~found), attempts = 1; end
@@ -87,9 +90,9 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglodip (X, numberOfInitialC
     if (~isempty(merge_struct))
         pval_threshold    = merge_struct.pval_threshold;            % the probability <= to which the cluster must split
         exhaustive_search = merge_struct.exhaustive_search;    % whether Hartigan test must be done for all cluster objects or to stop when first prob=0 is found
-        voting            = merge_struct.voting;                                    % the spliting criterion is based on a voting (0<voting<=1), or on the worst indication from the objects of the cluster (voting=0)
-        nboot             = merge_struct.nboot;                                     % number of normal distribution samples to test each object with Hartigan test
-        overall_distr     = merge_struct.overall_distr;                     % if 1, Hartigan test is applied one time on the overall distribution of distances
+        voting            = merge_struct.voting;                          % the spliting criterion is based on a voting (0<voting<=1), or on the worst indication from the objects of the cluster (voting=0)
+        nboot             = merge_struct.nboot;                          % number of normal distribution samples to test each object with Hartigan test
+        overall_distr     = merge_struct.overall_distr;                 % if 1, Hartigan test is applied one time on the overall distribution of distances
         clear('merge_struct');
     else                        % default values
         pval_threshold    = 0;    
@@ -217,7 +220,7 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglodip (X, numberOfInitialC
                                         end
 
                                         Dtemp = [Dtemp1;Dtemp2];
-                                        [cluster_eval(i,j), pval(i,j)] = test_unimodal_cluster2 (Dtemp, nboot, exhaustive_search, voting,boot_dips);
+                                        [cluster_eval(i,j), pval(i,j)] = test_unimodal_cluster2 (Dtemp, nboot, boot_dips);
                                         clear Xtemp Xtemp1 Xtemp2 Xtlength Xtlength1 Xtlength2 gIdXtemp gIdXtemp1 gIdXtemp2 ctemp ctemp1 ctemp2 Dtemp Dtemp1 Dtemp2;                                   
                                     else
                                         [cluster_eval(i,j), pval(i,j)] = test_unimodal_cluster (D(tempclmemberIDs,tempclmemberIDs), nboot, exhaustive_search, voting,boot_dips);

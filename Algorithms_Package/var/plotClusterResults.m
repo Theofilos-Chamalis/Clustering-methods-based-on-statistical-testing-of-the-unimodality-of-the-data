@@ -1,12 +1,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
 % This script was created to plot the final clustering that
 % an algorithm has found as well as the real clusters (if provided)
 % so we can compare their plots if we wish. Note that
 % this script plots only the first 2 dimensions (first
 % along with second) of the data and that it has a 
-% maximum limit of 49 clusters that it can plot with 
+% maximum limit of 56 clusters that it can plot with 
 % different colors. Changes to aleviate the above 
 % limitations are easy to be made.
+%------------
+% Copyright (C) 2014-2015, Chamalis Theofilos.
+%------------
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Here new color/shape combinations can be added to plot the data

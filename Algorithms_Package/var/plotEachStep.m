@@ -1,6 +1,18 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
+% This function was created to plot each step of the
+% clustering process to see which cluster is merged
+% in every iteration of the agglomerative algorithms.
+% These clusters are pointed with yellow color.
+%------------
+% Copyright (C) 2014-2015, Chamalis Theofilos.
+%------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 function [] = plotEachStep(X, gIdx_ref_Init, iterationNo, algorithmName, mergedCluster)
 
-%%%%%%%%%%%%Plot the resulting clusters%%%%%%%%%%%%%%%%%%
+% plot the resulting clusters
 k2 = length(unique(gIdx_ref_Init));
 colorCell = {'r^','g^','b^','m^','c^','k^','rs','gs','bs','ms','cs','ks','rv','gv','bv','mv','cv','kv','r+','g+','b+','m+','c+','k+','ro','go','bo','mo','co','ko','r.','g.','b.','m.','c.','k.','rh','gh','bh','mh','ch','kh','rp','gp','bp','mp','cp','kp'};
 colorCell2 = horzcat(colorCell,colorCell,colorCell,colorCell,colorCell);
@@ -28,7 +40,7 @@ end
 
 s = strcat(algorithmName,iter);
 title(s);
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% pause to see the results
 pause;
 
 end

@@ -1,5 +1,6 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
-% This function implements the bisecting k-means reverse (merging/agglomerative version) clustering algorithm.
+% This function implements the agglopdip (agglomerative pdip-means) hierarchical clustering algorithm.
 %------------
 % Input parameters
 % X:           Data vectors (rows), 
@@ -24,7 +25,7 @@
 %              (2) refinement of all clusters after every merging of one cluster (cannot be used)
 % attempts:    attempts to cluster the data (starting again from the initial clusters that k-means created in the beginning)
 % smallest_cluster: the algorithm stops splitting clusters containing this number of objects (default=6) 
-% rndseed      initialization for the random number generator (dafault: random from cpu timer)
+% rndseed:      initialization for the random number generator (dafault: random from cpu timer)
 %
 % Output
 % R:           the partition of data
@@ -32,18 +33,21 @@
 % R_ref:       the partition of data if refinement is applied 
 % min_err_ref: the numerical error corresponding to the R_ref partition
 %------------
-% Copyright (C) 2009-2013, Argyris Kalogeratos.
+% Copyright (C) 2014-2015, Chamalis Theofilos.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitialClusters, varargin)
 
+    % load the uniform distribution bootstrap samples that were generated
+    % offline which will be used by the agglopdip algorithm
     n = size(X,1);
     load('unifpdfbootext.mat','boot_dips');
     
     initclNo = numberOfInitialClusters;
     fprintf('\nThe initial number of clusters is: %d\n',initclNo);
     
-    GRAPH_FLAG = 0;                          % Use the connected components of the graph produced by the pval values
+    GRAPH_FLAG = 0;                   % Use the connected components of the graph produced by the pval values of the first iteration to cluster the data
     PRINT_EACH_STEP_FLAG = 0;   % Plot the clustering that dip-means reverse produces after each merge
 
 
@@ -65,7 +69,7 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
     end
 
     [found, smallest_cluster, varargin] = parsepar(varargin, 'smallest_cluster');
-    if (~found), smallest_cluster = 6; end   % the cluster must have at least this number of object to be split candidate
+    if (~found), smallest_cluster = 6; end   % the cluster must have at least this number of objects
 
     [found, attempts, varargin] = parsepar(varargin, 'attempts');
     if (~found), attempts = 1; end

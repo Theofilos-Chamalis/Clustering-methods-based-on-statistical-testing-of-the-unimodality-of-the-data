@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % Calculates Hartigan's dip statistic and its significance for the 
 % empirical pdf  XPDF (vector of sample values)
@@ -7,6 +8,7 @@
 % Written by F. Mechler (27 August 2002)
 % Minor changes by Argyris Kalogeratos, 2012-2013.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [dip, p_value, xlow,xup] = HartigansDipSignifTest (xpdf, nboot)
 

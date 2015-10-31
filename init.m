@@ -1,9 +1,11 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % Initialization for Clustering Algorithms based on Unimodality Tests package previously
 % called Dip-means package. Run bistest.m for a demonstration.
 %------------
 % Copyright (C) 2012-2015, Chamalis Theofilos, Kalogeratos Argyris.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear;
 fclose('all');

@@ -1,7 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
 % Tests a cluster for split based on the dip-dist criterion which uses 
 % the dip-statistic on the projections of the data of a cluster.
-%
+%------------
 % Input
 %  projections : a cell containing the projections of the dataset (row vectors)
 %  nboot : the number of bootstrap uniform distributions to use
@@ -15,8 +16,9 @@
 % Output
 %   maxdip: the maximum dip value found in the projections
 %   pmin  : the lowest probability found by the test (if pmin==0 cluster is definitely not unimodal)
-%
-% Copyright (C) 2015, Chamalis Theofilos.
+%------------
+% Copyright (C) 2014-2015, Chamalis Theofilos.
+%------------
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

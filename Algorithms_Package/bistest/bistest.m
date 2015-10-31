@@ -1,8 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % Clustering Algorithms based on Unimodality Tests package demonstration.
 %------------
 % Copyright (C) 2012-2015, Chamalis Theofilos, Kalogeratos Argyris.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % clear the matrices from the data of possible previous runs
 % or all data in workspace
@@ -105,7 +107,7 @@ split_struct{3} = split_struct{1};
 split_struct{4} = split_struct{1};
 
 split_struct{6} = struct;
-split_struct{6}.pval_threshold    = 0.999; % the a value (alpha value)
+split_struct{6}.pval_threshold    = 0.999;  % the a value (alpha value)
 
  split_struct{7} = split_struct{3}; 
 
@@ -137,6 +139,7 @@ for m=methods,
 %         % % compare their resulting clusters to the real ones (if we have them) 
 %         R_ref_plot = R_ref;
 %         k_plot = length(unique(R_ref_plot));
+% 
 %         %%% plot the resulting clustering found by any algorithm and the true clusters (if they exist) and pause.
 %         delete(findall(0,'Type','figure'))
 %         plotClusterResults;
@@ -151,6 +154,7 @@ for m=methods,
 %         % % compare their resulting clusters to the real ones (if we have them) 
 %         R_ref_plot = R_ref;
 %         k_plot = length(unique(R_ref_plot));
+% 
 %         %%% plot the resulting clustering found by any algorithm and the true clusters (if they exist) and pause.
 %         delete(findall(0,'Type','figure'))
 %         plotClusterResults;
@@ -165,6 +169,7 @@ for m=methods,
 %         % % compare their resulting clusters to the real ones (if we have them) 
 %         R_ref_plot = R_ref;
 %         k_plot = length(unique(R_ref_plot));
+%
 %         %%% plot the resulting clustering found by any algorithm and the true clusters (if they exist) and pause.
 %         delete(findall(0,'Type','figure'))
 %         plotClusterResults;
@@ -179,6 +184,7 @@ for m=methods,
 %         % % compare their resulting clusters to the real ones (if we have them) 
 %         R_ref_plot = R_ref;
 %         k_plot = length(unique(R_ref_plot));
+% 
 %         %%% plot the resulting clustering found by any algorithm and the true clusters (if they exist) and pause.
 %         delete(findall(0,'Type','figure'))
 %         plotClusterResults;
@@ -193,6 +199,7 @@ for m=methods,
 %         % % compare their resulting clusters to the real ones (if we have them) 
 %         R_ref_plot = R_ref;
 %         k_plot = length(unique(R_ref_plot));
+% 
 %         %%% plot the resulting clustering found by any algorithm and the true clusters (if they exist) and pause.
 %         delete(findall(0,'Type','figure'))
 %         plotClusterResults;
@@ -207,6 +214,7 @@ for m=methods,
 %         % % compare their resulting clusters to the real ones (if we have them) 
 %         R_ref_plot = R_ref;
 %         k_plot = length(unique(R_ref_plot));
+% 
 %         %%% plot the resulting clustering found by any algorithm and the true clusters (if they exist) and pause.
 %         delete(findall(0,'Type','figure'))
 %         plotClusterResults;

@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % This function implements the bisecting k-means clustering algorithm.
 %------------
@@ -44,11 +45,12 @@
 %------------
 % Copyright (C) 2012-2015, Chamalis Theofilos, Kalogeratos Argyris.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [R, min_err, R_ref, min_err_ref] = bisect_kmeans_default (X, varargin)
 
     % load the uniform distribution bootstrap samples that were generated
-    % offline which will be used by the pdip-means algorithm
+    % offline which will be used by the dip-means and pdip-means algorithms
     n = size(X,1);
     load('unifpdfbootext.mat','boot_dips');
 
@@ -66,7 +68,7 @@ function [R, min_err, R_ref, min_err_ref] = bisect_kmeans_default (X, varargin)
     if (~found), refineMODE = 0; end
 
     [found, smallest_cluster, varargin] = parsepar(varargin, 'smallest_cluster');
-    if (~found), smallest_cluster = 6; end   % the cluster must have at least this number of object to be split candidate
+    if (~found), smallest_cluster = 6; end   % the cluster must have at least this number of objects to be split candidate
 
     [found, attempts, varargin] = parsepar(varargin, 'attempts');
     if (~found), attempts = 1; end
