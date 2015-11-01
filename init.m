@@ -18,7 +18,8 @@ fprintf('This is free software distributed under the GNU General Public License;
 % add folders and their subfolders to the path
 addpath(genpath('Algorithms_Package'));
 addpath(genpath('Plots2D_Of_Datasets'));
-addpath(genpath('PG_means'));
+% add this path only if you have PG-means code
+%addpath(genpath('PG_means'));
 addpath(genpath('External_Bootstrap'));
 addpath(genpath('wgPlot'));
 % add this path only if you have Global kmeans code
