@@ -1,3 +1,5 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
 % COUNTMEMBER - count members
 %
 %   C = COUNTMEMBER(A,B) counts the number of times the elements of array A are
@@ -16,6 +18,8 @@
 %
 %   See also ISMEMBER, UNIQUE, HISTC
 % source: Matlab File Exchange
+%------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function C = countmember(A,B, unique_vals)
 

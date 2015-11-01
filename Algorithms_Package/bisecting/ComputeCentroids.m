@@ -1,18 +1,20 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % Computes the centroids based on a partition table.
 %------------
 % Input
-%   X   : the dataset (row vectors)
-%   gIdx: the matrix that contains the object-to-cluster assingment
-%   k   : the number of cluster
+%   X:      the dataset (row vectors)
+%   gIdx:  the matrix that contains the object-to-cluster assingment
+%   k:      the number of cluster
 %   mode: if mode=1 then normalization is performend wrt norm-2.
 % Output
-%   c          : the computed centroids
+%   c:                the computed centroids
 %   clmemberIDs: a cell with the object ids assigned to each cluster.
-%   clmembers  : the size of each cluster 
+%   clmembers  :  the size of each cluster 
 %------------
 % Copyright (C) 2012-2013, Argyris Kalogeratos.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [c, clmemberIDs, clmembers] = ComputeCentroids(X, gIdx, k, mode)
 

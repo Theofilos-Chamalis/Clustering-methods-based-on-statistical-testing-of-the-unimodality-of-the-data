@@ -17,12 +17,12 @@ fprintf('This is free software distributed under the GNU General Public License;
 
 % add folders and their subfolders to the path
 addpath(genpath('Algorithms_Package'));
-addpath(genpath('Experiment_report'));
-addpath(genpath('Global_kmeans'));
 addpath(genpath('Plots2D_Of_Datasets'));
 addpath(genpath('PG_means'));
 addpath(genpath('External_Bootstrap'));
 addpath(genpath('wgPlot'));
+% add this path only if you have Global kmeans code
+%addpath(genpath('Global_kmeans'));
             
 %%% open important files [optional]
 % files to run frameworks' algorithms

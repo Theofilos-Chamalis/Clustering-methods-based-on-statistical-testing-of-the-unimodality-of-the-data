@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % function	[dip,xl,xu, ifault, gcm, lcm, mn, mj]=HartigansDipTest(xpdf)
 %
@@ -18,6 +19,7 @@
 % Written by F. Mechler (August 27 2002)
 % Minor changes in the description of file by Argyris Kalogeratos, 2012-2013.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function	[dip,xl,xu, ifault, gcm, lcm, mn, mj] = HartigansDipTest(xpdf)
 

@@ -1,5 +1,9 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
 % choose k centers by the furthest-first method
 % source: fastkmeans package from Matlab File Exchange
+%------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [centers, mincenter, mindist, lower, computed] = anchors(firstcenter,k,data)
 

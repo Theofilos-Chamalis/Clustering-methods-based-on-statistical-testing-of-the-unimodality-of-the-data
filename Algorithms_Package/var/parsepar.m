@@ -1,5 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
 % seeks for a specific variable name in a par list (case-insesnsitive)
 % source: Matlab File Exchange
+%------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function [found, val, vars] = parsepar(vars, param)
 
     isvar = cellfun(@(x) ischar(x) && strcmpi(x, param), vars);

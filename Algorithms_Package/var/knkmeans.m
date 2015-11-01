@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % Perform kernel k-means clustering.
 %   K: kernel matrix
@@ -7,6 +8,7 @@
 %------------
 % Written by Michael Chen (sth4nth@gmail.com)
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [label, val, energy] = knkmeans(K,init)
 

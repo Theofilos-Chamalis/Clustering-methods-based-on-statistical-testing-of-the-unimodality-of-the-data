@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % Finds all the index maps in A that contains a value included in T.
 % A is the array to search into
@@ -9,6 +10,7 @@
 %------------
 % Copyright (C) Argyris Kalogeratos, February 2012.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function indexMap = find1DIndexMaps(A, T)
 

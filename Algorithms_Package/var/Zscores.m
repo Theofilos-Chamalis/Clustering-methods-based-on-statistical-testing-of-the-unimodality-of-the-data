@@ -1,4 +1,8 @@
-%%% Function used to transform the sampling distribution into a standard normal distribution%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
+% Function used to transform the sampling distribution into a standard normal distribution
+%------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function Z = Zscores(X)
     

@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % Input
 %   R: the clustering assignment
@@ -11,6 +12,7 @@
 %------------
 % Copyright (C) 2012-2013, Argyris Kalogeratos.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [pq, RI, ARI, conf_matrix, conf_matrix_probC, conf_matrix_probR] =  partition_quality(C, R)
 

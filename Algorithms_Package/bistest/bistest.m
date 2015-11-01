@@ -71,7 +71,7 @@ DATASIZE = N;
 if(real_k~=-1)
     numberOfInitialClusters = 3*real_k;
 else
-    numberOfInitialClusters = 9;
+    numberOfInitialClusters = 22;
 end
 
 % set the minimum number of elements a cluster (agglomerative) may have
@@ -126,13 +126,13 @@ result = zeros(max(methods), 7);
 j = 1;
 
 % override manually the methods that you wish to run
-methods = [2];
+% methods = [2];
 
 for m=methods,
     if (m == 1)
         fprintf('\n+++++++++++++++++++++++++++++++++AGGLOPDIP++++++++++++++++++++++++++++++++\n');
         tic;
-        [R, sumer, R_ref, sumer_ref] = bisect_agglopdip(X, numberOfInitialClusters, 'merge_struct', split_struct{m}, 'merge_trials', merge_trials, 'mergeSELECT', 6, 'splitMODE', 0, 'refineMODE', 1, 'smallest_cluster', smallestCl,'attempts', 1, 'rndseed', 0+rseed);
+        [R, sumer, R_ref, sumer_ref] = bisect_agglopdip(X, numberOfInitialClusters, 'merge_struct', split_struct{m}, 'merge_trials', merge_trials, 'mergeSELECT', 2, 'splitMODE', 0, 'refineMODE', 1, 'smallest_cluster', smallestCl,'attempts', 1, 'rndseed', 0+rseed);
         toc;
         disp(' '); 
 %         % % the next two variables can be used in all of the below methods to
@@ -162,7 +162,7 @@ for m=methods,
      elseif (m == 3)
         fprintf('\n+++++++++++++++++++++++++++++++++AGGLODIP+++++++++++++++++++++++++++++++++++\n');
         tic;
-        [R, sumer, R_ref, sumer_ref] = bisect_agglodip(X, numberOfInitialClusters,'merge_struct', split_struct{m}, 'merge_trials', merge_trials, 'mergeSELECT', 6, 'splitMODE', 0, 'refineMODE', 0, 'smallest_cluster', smallestCl,'attempts', 1, 'rndseed', 0+rseed);
+        [R, sumer, R_ref, sumer_ref] = bisect_agglodip(X, numberOfInitialClusters,'merge_struct', split_struct{m}, 'merge_trials', merge_trials, 'mergeSELECT', 1, 'splitMODE', 0, 'refineMODE', 0, 'smallest_cluster', smallestCl,'attempts', 1, 'rndseed', 0+rseed);
         toc;
         disp(' ');      
 %         % % the next two variables can be used in all of the below methods to
@@ -241,11 +241,11 @@ end
 fprintf('----------------------------------------------------------------------------------------------------------------------------------------\n\t\t\t\tClustering results for real_k = %g\n----------------------------------------------------------------------------------------------------------------------------------------\n', real_k);
 if (real_k > 0)
     for m=methods,
-        fprintf('%g. %10s -- k: %3g, RI: %1.5f, ARI: %1.5f, VI: %1.5f, error: %5.5f\n', m, method_names{m}, result(m,1), result(m,4), result(m,5), result(m,6), result(m,3));
+        fprintf('%g. %10s \t--- k: %3g, RI: %1.5f, ARI: %1.5f, VI: %1.5f, error: %5.5f\n', m, method_names{m}, result(m,1), result(m,4), result(m,5), result(m,6), result(m,3));
     end
 else % real_k == -1: the ground truth labels are not available
     for m=methods,
-        fprintf('%g. %10s -- k: %3g, error: %5.5f, (supervised measures N/A)\n', m, method_names{m}, result(m,1), result(m,3));
+        fprintf('%g. %10s \t--- k: %3g, error: %5.5f, (supervised measures N/A)\n', m, method_names{m}, result(m,1), result(m,3));
     end
 end
 
@@ -255,4 +255,4 @@ end
 % delete(findall(0,'Type','figure'))
 % plotClusterResults;
 
-fprintf('RNG seed used: %f\n\n\n', rseed);
+fprintf('RNG seed used: %f\n\n', rseed);

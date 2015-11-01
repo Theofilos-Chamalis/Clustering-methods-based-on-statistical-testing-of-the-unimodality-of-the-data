@@ -1,9 +1,12 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
-% This function generates boot_dips variable 
+% This function generates the boot_dips variable 
 % and stores it in an external file named
 % unifpdfbootext.mat for later use by 
-% test_projected_unimodality.m to speed up
-% the pdip and pdip reverse algorithms.
+% test_projected_unimodality and 
+% test_unimodal_cluster to speed up
+% the clustering algorithms that use Hartigan's 
+% dip test.
 %------------
 % Input
 %	MaxN: The maximum number of points a cluster can have
@@ -11,8 +14,9 @@
 % Output
 %   	None.
 %------------
-% Copyright (C) 2012-2013, Argyris Kalogeratos.
+% Copyright (C) 2014-2015, Chamalis Theofilos.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 function [] = compute_unifpdfboot(MaxN,nboot)

@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % Finds all the indices in A that contains a value included in T.
 % A is the array to search into
@@ -7,6 +8,7 @@
 %------------
 % Copyright (C) Argyris Kalogeratos, February 2012.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function index = find1DIndices(A, T)
 

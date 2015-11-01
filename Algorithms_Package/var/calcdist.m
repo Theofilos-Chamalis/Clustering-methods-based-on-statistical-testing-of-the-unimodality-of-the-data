@@ -1,6 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
 % input: vector of data points, single center or multiple centers
 % output: vector of distances
 % source: fastkmeans package from Matlab File Exchange
+%------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function distances = calcdist(data,center)
 

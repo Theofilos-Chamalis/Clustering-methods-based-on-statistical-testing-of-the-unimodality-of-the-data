@@ -3,34 +3,28 @@
 % This function implements the agglopdip (agglomerative pdip-means) hierarchical clustering algorithm.
 %------------
 % Input parameters
-% X:           Data vectors (rows), 
+% X:            Data vectors (rows), 
 % merge_struct:information for the algorithms that learn the number of k.
 %                - pval_threshold (default=0)     the probability <= to which the cluster would split
-%                - exhaustive_search (default=1)  whether Hartigan test must be done for all cluster objects or to stop when first prob=0 is found
-%                - voting (default=0.1)           the spliting criterion is based on a voting (0<voting<=1), or on the worst indication from the objects of the cluster (voting=0)
 %                - nboot  (default=1000)          number of normal distribution samples to test each object with Hartigan test
-%                - overall_distr (default=0)      if 1, Hartigan test is applied one time on the overall distribution of distances (not applicable here)
-%              When merge_struct is not provided then default values are set for all fields.
+%               When merge_struct is not provided then default values are set for all fields.
 % mergetrials: the number of merges to try and then from them select the one 
-%              with minimum error (default: 1)
+%               with minimum error (default: 1)
 % mergeSELECT: this is the strategy according to which a cluster is selected to be merged. 
-%              (6) pdip-means: the cluster with lower prob of unimodal sim/dist distribution on the line projections(Hartigan)
-% splitMODE:   one mode is available in bisect k-means reverse. 
-%              (0) the one using one random object and the center of the group to compute the second initial prototype (default), 
-%              (1) two randomly selected objects are the initial prototypes of the split (cannot be used by reverse pdip-means)
-%              (2) the split is based on Hartigan unimodality  test (can be used only in dip-means)
+%               (2) agglopdip: the cluster with lower prob of unimodal sim/dist distribution on the line projections(Hartigan)
+% splitMODE:   one mode is available in bisect_agglopdip. 
+%               (0) the one using one random object and the center of the group to compute the second initial prototype (default), 
 % refineMODE:  this is the refinement strategy
-%              (0) no refinement (default)
-%              (1) one k-means refinement at the end of the merging recursion
-%              (2) refinement of all clusters after every merging of one cluster (cannot be used)
-% attempts:    attempts to cluster the data (starting again from the initial clusters that k-means created in the beginning)
+%               (0) no refinement (default)
+%               (1) one k-means refinement at the end of the merging recursion
+% attempts:          attempts to cluster the data (starting again from the initial clusters that k-means created in the beginning)
 % smallest_cluster: the algorithm stops splitting clusters containing this number of objects (default=6) 
-% rndseed:      initialization for the random number generator (dafault: random from cpu timer)
+% rndseed:            initialization for the random number generator (dafault: random from cpu timer)
 %
 % Output
-% R:           the partition of data
-% min_err:     the numerical error corresponding to R partition
-% R_ref:       the partition of data if refinement is applied 
+% R:              the partition of data
+% min_err:      the numerical error corresponding to R partition
+% R_ref:         the partition of data if refinement is applied 
 % min_err_ref: the numerical error corresponding to the R_ref partition
 %------------
 % Copyright (C) 2014-2015, Chamalis Theofilos.
@@ -48,7 +42,7 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
     fprintf('\nThe initial number of clusters is: %d\n',initclNo);
     
     GRAPH_FLAG = 0;                   % Use the connected components of the graph produced by the pval values of the first iteration to cluster the data
-    PRINT_EACH_STEP_FLAG = 0;   % Plot the clustering that dip-means reverse produces after each merge
+    PRINT_EACH_STEP_FLAG = 0;   % Plot the clustering that agglopdip produces after each merge
 
 
     % -- parse input arguments -- %
@@ -82,47 +76,51 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
     [kernelSpace, Kernel, ~] = parsepar(varargin, 'kernelSpace');
     if (isempty(Kernel)), kernelSpace = 0; clear('Kernel'); 
     else
-        kernelSpace = 0; clear('Kernel'); fprintf('\n\nKernel cannot be used in pdip-means reverse. Clearing Kernel now and continuing... \n\n');
+        kernelSpace = 0; clear('Kernel'); fprintf('\n\nKernel cannot be used in agglopdip. Clearing Kernel now and continuing... \n\n');
     end
 
 
     if (~isempty(merge_struct))
         pval_threshold    = merge_struct.pval_threshold;            % the probability <= to which the cluster must split
-        exhaustive_search = merge_struct.exhaustive_search;    % whether Hartigan test must be done for all cluster objects or to stop when first prob=0 is found
-        voting            = merge_struct.voting;                                    % the spliting criterion is based on a voting (0<voting<=1), or on the worst indication from the objects of the cluster (voting=0)
-        nboot             = merge_struct.nboot;                                     % number of normal distribution samples to test each object with Hartigan test
-        overall_distr     = merge_struct.overall_distr;                     % if 1, Hartigan test is applied one time on the overall distribution of distances
+        nboot             = merge_struct.nboot;                          % number of uniform distribution samples to test each object with Hartigan test
         clear('merge_struct');
     else                        % default values
         pval_threshold    = 0;    
-        exhaustive_search = 1;    
-        voting            = 0.1;  
         nboot             = 1000; 
-        overall_distr     = 0;    
     end
     
-%     %%%%Global K-means Algorithm
-    [~,c_all,~] = global_kmeans(X,[],initclNo,1,0,0);
-    [gIdx_ref_Init, c_all, sumdd, ~, ~] = ark_kmeans(X', [], c_all', 20, -1, 1, 0, 0, 0, 0);
-    c_all = c_all';
-%     [gIdx_ref_Init,c_all] = kmeans(X,initclNo);
+    %%% Preprocessing phase
+    
+    % Global K-means Algorithm, uncomment these lines if you
+    % have a copy of the matlab code
+    %[~,c_all,~] = global_kmeans(X,[],initclNo,1,0,0);
+    %[gIdx_ref_Init, c_all, sumdd, ~, ~] = ark_kmeans(X', [], c_all', 20, -1, 1, 0, 0, 0, 0);
+    %c_all = c_all';
+    
+    % optionally use the kmeans algorithm instead of the global k-means
+    [gIdx_ref_Init,c_all] = kmeans(X,initclNo);
     kmax = initclNo +1;
     
-%     % Merge small clusters defined by smallest_cluster variable to the 'nearest' ones
+    % Merge small clusters defined by smallest_cluster variable to the
+    % 'nearest' ones. This ensures we won't enter a very big k value
+    % that creates very small clusters
     [gIdx_ref_Init,c_all,initclNo] = MergeSmallClusters(gIdx_ref_Init, c_all, smallest_cluster,X);
 
-%     % Unimodality tests are done on each cluster we have up to now
-%     % to check if we need to split any of them
-    [gIdx_ref_Init,c_all,initclNo,kmax] = UnimodalityChecking(X, gIdx_ref_Init, initclNo, smallest_cluster, mergeSELECT);    
+    % Unimodality tests are done on each cluster we have up to now
+    % to check if we need to split any of them. This ensures we won't
+    % enter a small initial k value for the number of clusters
+    [gIdx_ref_Init,c_all,initclNo,kmax] = UnimodalityChecking(X, gIdx_ref_Init, initclNo, smallest_cluster, 6);    
 
-    % Plot the initial clustering that pdip-means reverse gets as input
+    %%% End of preprocessing phase
+    
+    % plot the initial clustering that agglopdip gets as input
     if PRINT_EACH_STEP_FLAG == 1
-        plotEachStep(X, gIdx_ref_Init, 0, 'Pdip-means reverse',0);
+        plotEachStep(X, gIdx_ref_Init, 0, 'Agglopdip',0);
     end
     
     min_err = flintmax;
     min_err_ref = flintmax;
-    proj_Cell = {};  % proj_Cell is a cell containg all the projections of the data
+    proj_Cell = {};             % proj_Cell is a cell containg all the projections of the data
 
     for exp_id=1:attempts,  % do a number of clustering attempts starting with the clusters that the initial k-means created
 
@@ -145,33 +143,33 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
         end
 
         Er = zeros(1,kmax);
-        k = initclNo;           % the number of clusters up to now
+        k = initclNo;                    % the number of clusters up to now
         
-        if (mergeSELECT == 6)
+        if (mergeSELECT == 2)
             c = c_all;
         else
             c = [];
         end
 
-        FIRST_RUN_FLAG = 1;                  % Flag used to distinguish the first run of the merging part from the others
+        FIRST_RUN_FLAG = 1;        % Flag used to distinguish the first run of the merging part from the others
         
         if PRINT_EACH_STEP_FLAG == 1
             iterNo = 1;
         end
         
-        while (k < kmax || mergeSELECT > 2)
+        while (k < kmax || mergeSELECT >= 2)
             candidates = find(clmembers > smallest_cluster);
 
             % choose the cluster to split
             switch mergeSELECT
-              case 6
+              case 2
                     if (isempty(candidates)), 
                         fprintf('-> Projected Hartigan: Stopped merging at k=%g  (smallest clusters reached)\n', k); 
                         break;
                     end
 
                    if (splitMODE == 1 || splitMODE == 2)
-                       fprintf('\nsplitMODE = 1 or 2 is not supported by reverse pdip-means. Use 0 instead.\n\n');
+                       fprintf('\nsplitMODE = 1 or 2 is not supported by agglopdip. Use 0 instead.\n\n');
                        break;
                    else                  
                        clear tempclmemberIDs;
@@ -187,7 +185,8 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
                                     % with value of 1 or 0) and randproj_number.
                                     tempclmemberIDs = [clmemberIDs{i},clmemberIDs{j}]; %Create a temporary cluster made from the members of cluster i & j
                                     proj_Cell = data_Proj(X(tempclmemberIDs,:),1,1,0,18);
-                                    [cluster_eval(i,j), pval(i,j)] = test_projected_unimodality(proj_Cell, nboot,1,voting,0,boot_dips);  
+                                    [cluster_eval(i,j), pval(i,j)] = test_projected_unimodality(proj_Cell, nboot, 1, boot_dips); 
+                                    
                                     
                                     if(clmembers(i)>=clmembers(j))
                                         N1 = clmembers(j);
@@ -196,11 +195,7 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
                                         N1 = clmembers(i);
                                         N2 = clmembers(j);
                                     end 
-                                    
-%                                     if j == length(candidates)
-%                                         [pvalue(i), cltomerge1(i)] = max(pval(i,:));
-%                                         dipval(i) = cluster_eval(i,cltomerge1(i));
-%                                     end
+
                                     if pval(i,j)>0
                                         PropMatrix(i,j) = N1/N2; %Keep the number of points in the cluster if pvalue is positive
                                     else
@@ -226,11 +221,12 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
                                    InitialPvalMatrix(i,i) = 1;
                                end
                                
-%                                 figure(500); %Use of wgPlot to plot the strength of each connection between the initial clusters
-%                                [he,hv]=wgPlot(InitialPvalMatrix,c,'vertexColorMap',cool,'edgeColorMap',summer,'edgeWidth',2.3,'vertexmarker','p');
-%                                
-% %                                view(biograph(GraphMatrix));
-%                                pause;
+                               %Use wgPlot to plot the strength of each connection between the initial clusters
+                               %figure(500); 
+                               %[he,hv]=wgPlot(InitialPvalMatrix,c,'vertexColorMap',cool,'edgeColorMap',summer,'edgeWidth',2.3,'vertexmarker','p');                               
+                               %view(biograph(GraphMatrix));
+                               %pause;
+                               
                                SparseGraph = sparse(GraphMatrix);
                                [NoOfFinalClusters,CompAssignment] = graphconncomp(SparseGraph);
 
@@ -264,7 +260,7 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
                                     % with value of 1 or 0) and randproj_number.
                                     tempclmemberIDs = [clmemberIDs{best_cl},clmemberIDs{i}];
                                     proj_Cell = data_Proj(X(tempclmemberIDs,:),1,1,0,18);
-                                    [cluster_eval2(i), pval2(i)] = test_projected_unimodality(proj_Cell, nboot,1,voting,0,boot_dips);
+                                    [cluster_eval2(i), pval2(i)] = test_projected_unimodality(proj_Cell, nboot, 1, boot_dips);
                                     
                                     if(clmembers(best_cl)>=clmembers(i))
                                         N1 = clmembers(i);
@@ -302,14 +298,8 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
                               end
                       end
                    end                       
-
-%                    [pvalues,pIndex1] = max(pval);
-%                    [maxpval,pIndex2] = max(pvalues);
-%                    cltomerge1 = pIndex1(pIndex2);
-%                    cltomerge2 = pIndex2;
                     
                    [propvalues,prIndex1] = max(PropMatrix.*pval); %get the two clusters with the biggest product of pvalue * (size1/size2)
-%                    [propvalues,prIndex1] = max(PropMatrix);
                    [maxprop,prIndex2] = max(propvalues);
                    cltomerge1 = prIndex1(prIndex2);
                    cltomerge2 = prIndex2;
@@ -325,15 +315,6 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
                    
                    dipval = cluster_eval(cltomerge2,cltomerge1(1));
 
-%                    PropMatrix 
-% %                     pval
-%                      maxpval
-%                     cltomerge1
-%                     cltomerge2
-% %                     cluster_eval
-%                      dipval
-                   
-%                     if (maxpval == pval_threshold)
                     if (maxprop == pval_threshold) %if maxprop reaches the threshold 0
                             fprintf('-> Projected Hartigan: Stopped merging at k=%g\n', k); 
                             break; 
@@ -364,7 +345,7 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
             if PRINT_EACH_STEP_FLAG == 1
                 delete(findall(0,'Type','figure'))
                 for j2=1:k,  gIdx2(clmemberIDs{j2}) = j2; end
-                plotEachStep(X,gIdx2,iterNo,'Pdip-means reverse',cltomerge2)
+                plotEachStep(X,gIdx2,iterNo,'Agglopdip',cltomerge2)
                 iterNo = iterNo +1;
             end
             
@@ -417,6 +398,6 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglopdip (X, numberOfInitial
      end  % end of attempts
 
     if PRINT_EACH_STEP_FLAG == 1
-        plotEachStep(X,gIdx_ref,99999,'Pdip-means reverse',0)
+        plotEachStep(X,gIdx_ref,99999,'Agglopdip',0)
     end
 end

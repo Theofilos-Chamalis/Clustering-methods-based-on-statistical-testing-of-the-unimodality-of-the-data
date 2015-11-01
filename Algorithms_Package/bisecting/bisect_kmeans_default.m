@@ -3,7 +3,7 @@
 % This function implements the bisecting k-means clustering algorithm.
 %------------
 % Input parameters
-% X:           Data vectors (rows), 
+% X:          Data vectors (rows), 
 % split_struct:information for the algorithms that learn the number of k.
 %              For dip-means it must contain the following fields
 %                - pval_threshold (default=0)        the probability <= to which the cluster must split
@@ -87,7 +87,7 @@ function [R, min_err, R_ref, min_err_ref] = bisect_kmeans_default (X, varargin)
             pval_threshold    = split_struct.pval_threshold;         % the probability <= to which the cluster must split
             exhaustive_search = split_struct.exhaustive_search; % whether Hartigan test must be done for all cluster objects or to stop when first prob=0 is found
             voting            = split_struct.voting;                       % the spliting criterion is based on a voting (0<voting<=1), or on the worst indication from the objects of the cluster (voting=0)
-            nboot             = split_struct.nboot;                       % number of normal distribution samples to test each object with Hartigan test
+            nboot             = split_struct.nboot;                       % number of uniform distribution samples to test each object with Hartigan test
             overall_distr     = split_struct.overall_distr;              % if 1, Hartigan test is applied one time on the overall distribution of distances
             clear('split_struct');
         else                        % default values

@@ -1,4 +1,6 @@
-%RANDINDEX - calculates Rand Indices to compare two partitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
+% RANDINDEX - calculates Rand Indices to compare two partitions
 % ARI=RANDINDEX(c1,c2), where c1,c2 are vectors listing the 
 % class membership, returns the "Hubert & Arabie adjusted Rand index".
 % [AR,RI,MI,HI]=RANDINDEX(c1,c2) returns the adjusted Rand index, 
@@ -6,8 +8,10 @@
 %
 % See L. Hubert and P. Arabie (1985) "Comparing Partitions" Journal of 
 % Classification 2:193-218
-
+%------------
 %(C) David Corney (2000)   		D.Corney@cs.ucl.ac.uk
+%------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [AR,RI,MI,HI]=RandIndex(c1,c2)
 

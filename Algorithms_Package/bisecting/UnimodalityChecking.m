@@ -1,5 +1,13 @@
-% Unimodality tests are done on each cluster produced by the kmeans algorithm
-% to check if we need to split any of them
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
+% Unimodality tests are done on each cluster produced by the global kmeans 
+% or the classic kmeans algorithm to check if we need to split them based
+% on if they are unimodal or not. The algorithm that decides for each split
+% is pdip-means.
+%------------
+% Copyright (C) 2014-2015, Chamalis Theofilos.
+%------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [gIdx_ref_Init, c_all, k2, kmax] = UnimodalityChecking(X, gIdx_ref_Init, initclNo, smallest_cluster, mergeSELECT)
     check_timer = tic;
@@ -32,8 +40,8 @@ function [gIdx_ref_Init, c_all, k2, kmax] = UnimodalityChecking(X, gIdx_ref_Init
             end        
         end
 
+        % use pdip-means algorithm for the splitting
         [R_temp, sumer_temp, R_ref_temp, sumer_ref_temp] = bisect_kmeans_default(Y, 'split_struct', split_struct{2}, 'split_trials', 10, 'splitSELECT', 6, 'splitMODE', 0, 'refineMODE', 1, 'smallest_cluster', smallest_cluster, 'attempts', 1, 'rndseed', 0+rseed);
-%         [R_temp, sumer_temp, R_ref_temp, sumer_ref_temp] = bisect_kmeans_default(Y, 'split_struct', split_struct{2}, 'split_trials', 10, 'splitSELECT', 3, 'splitMODE', 0, 'refineMODE', 0, 'smallest_cluster', smallest_cluster, 'attempts', 1, 'rndseed', 0+rseed);
         k_ref_temp = length(unique(R_ref_temp)); 
 
         if(k_ref_temp>1)

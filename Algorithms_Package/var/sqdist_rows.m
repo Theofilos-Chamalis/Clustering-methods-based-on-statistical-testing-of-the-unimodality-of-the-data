@@ -1,9 +1,11 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % Computes pairwise squared Euclidean distances between points
 % considers data vectors as rows of a and b
 %------------
 % Copyright (C) 2012-2013, Argyris Kalogeratos.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function d = sqdist_rows(a,b)
 

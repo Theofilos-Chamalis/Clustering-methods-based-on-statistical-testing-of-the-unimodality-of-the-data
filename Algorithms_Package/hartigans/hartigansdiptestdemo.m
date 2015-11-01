@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % Demonstration script for the dip statistic.
 % Creates some obviously unimodal and bimodal Gaussian distributions just 
@@ -6,6 +7,7 @@
 % Written by Nic Price, 2006
 % Minor changes by Argyris Kalogeratos, 2012-2013.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Cent1 = ones(1,9);
 Cent2 = 1:1:9;

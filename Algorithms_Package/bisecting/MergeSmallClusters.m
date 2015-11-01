@@ -1,6 +1,24 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
+% Merges the small clusters to the clusters with the nearest centroid.
+%------------
+% Input
+%   X:                    the dataset (row vectors)
+%   gIdx_ref_Init:     the matrix that contains the object-to-cluster assingment
+%   c_all:                the centroids set
+%   smallest_cluster: a threshold that defines which clusters are considered small
+% Output
+%   gIdx_ref_Init:     the new matrix that contains the object-to-cluster assingment
+%   c_all:                the new centroids set
+%   initclNo:            the number of clusters
+%------------
+% Copyright (C) 2014-2015, Chamalis Theofilos.
+%------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 function [gIdx_ref_Init,c_all,initclNo] = MergeSmallClusters(gIdx_ref_Init,c_all,smallest_cluster,X)
 
-    repz = 1;
     az = unique(gIdx_ref_Init);
     out = [az,histc(gIdx_ref_Init(:),az)];
     smallcl=[0];
@@ -96,12 +114,7 @@ function [gIdx_ref_Init,c_all,initclNo] = MergeSmallClusters(gIdx_ref_Init,c_all
             end
         end
         
-%         fprintf('\nThis is Repz number : %d \n',repz);
-%         fprintf('\nThis what smallcl has : \n');
-%         smallcl
         initclNo = length(unique(gIdx_ref_Init));
-%         fprintf('\nThe number of clusters is : %d \n',initclNo);
-        repz = repz+1;
     end
 	
 	initclNo = length(unique(gIdx_ref_Init));

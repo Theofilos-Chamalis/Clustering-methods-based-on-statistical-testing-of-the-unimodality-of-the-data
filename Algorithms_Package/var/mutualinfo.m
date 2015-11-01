@@ -1,10 +1,14 @@
-%MUTUALINFO Mutual information.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
+% MUTUALINFO Mutual information.
 % I = MUTUALINFO(L1,L2) returns the mutual information shared by two N-by-1
 % integer arrays of classification data, L1 and L2. 
 %
 % Copyright (2009) Sandia Corporation. Under the terms of Contract 
 % DE-AC04-94AL85000 with Sandia Corporation, the U.S. Government retains 
 % certain rights in this software.
+%------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function I = mutualinfo(L1,L2)
 

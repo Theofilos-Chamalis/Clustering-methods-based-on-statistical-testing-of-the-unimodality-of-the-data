@@ -1,6 +1,10 @@
-% output: matrix of all pairwise distances
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------
 % input: data points (centers)
+% output: matrix of all pairwise distances
 % source: fastkmeans package from Matlab File Exchange
+%------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function centdist = alldist(centers)
 

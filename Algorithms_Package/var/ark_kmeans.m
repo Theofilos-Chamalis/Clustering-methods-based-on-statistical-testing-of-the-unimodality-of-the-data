@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % k-means clustering
 %
@@ -28,6 +29,7 @@
 % the anchors() function is taken from fastkmeans package available from
 % Matlab File Exchange. Lightspeed package is also required
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [Idx, c, E, D, rnd_num, Ei] = ark_kmeans(X, W, k, init_type, iters, attempts_num, store_best_infile, save_res, keep_best_D, exp_id)
 
