@@ -1,15 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % This function implements the bisecting k-means clustering algorithm.
+% On top of it, x-means, g-means, dip-means and pdip-means
+% algorithms are implemented as wrappers that each uses a different 
+% statistical criterion to decide for a cluster split. 
 %------------
 % Input parameters
 % X:          Data vectors (rows), 
 % split_struct:information for the algorithms that learn the number of k.
 %              For dip-means it must contain the following fields
-%                - pval_threshold (default=0)        the probability <= to which the cluster must split
+%                - pval_threshold (default=0)       the probability <= to which the cluster must split
 %                - exhaustive_search (default=1)  whether Hartigan test must be done for all cluster objects or to stop when first prob=0 is found
 %                - voting (default=0.1)                the spliting criterion is based on a voting (0<voting<=1), or on the worst indication from the objects of the cluster (voting=0)
-%                - nboot  (default=1000)              number of uniform distribution samples to test each object with Hartigan test
+%                - nboot  (default=1000)             number of uniform distribution samples to test each object with Hartigan test
 %                - overall_distr (default=0)           if 1, Hartigan test is applied one time on the overall distribution of distances
 %              For g-means it contains only one field: 
 %                - pval_threshold (default=0.95)  which is the critical value for the internal normality statistic test 

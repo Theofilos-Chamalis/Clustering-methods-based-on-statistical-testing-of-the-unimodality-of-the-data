@@ -126,13 +126,13 @@ result = zeros(max(methods), 7);
 j = 1;
 
 % override manually the methods that you wish to run
-% methods = [2];
+methods = [3];
 
 for m=methods,
     if (m == 1)
         fprintf('\n+++++++++++++++++++++++++++++++++AGGLOPDIP++++++++++++++++++++++++++++++++\n');
         tic;
-        [R, sumer, R_ref, sumer_ref] = bisect_agglopdip(X, numberOfInitialClusters, 'merge_struct', split_struct{m}, 'merge_trials', merge_trials, 'mergeSELECT', 2, 'splitMODE', 0, 'refineMODE', 1, 'smallest_cluster', smallestCl,'attempts', 1, 'rndseed', 0+rseed);
+        [R, sumer, R_ref, sumer_ref] = bisect_agglopdip(X, numberOfInitialClusters, 'merge_struct', split_struct{m}, 'merge_trials', merge_trials, 'mergeSELECT', 2, 'splitMODE', 0, 'refineMODE', 1, 'smallest_cluster', smallestCl, 'attempts', 1, 'rndseed', 0+rseed);
         toc;
         disp(' '); 
 %         % % the next two variables can be used in all of the below methods to
@@ -162,7 +162,7 @@ for m=methods,
      elseif (m == 3)
         fprintf('\n+++++++++++++++++++++++++++++++++AGGLODIP+++++++++++++++++++++++++++++++++++\n');
         tic;
-        [R, sumer, R_ref, sumer_ref] = bisect_agglodip(X, numberOfInitialClusters,'merge_struct', split_struct{m}, 'merge_trials', merge_trials, 'mergeSELECT', 1, 'splitMODE', 0, 'refineMODE', 0, 'smallest_cluster', smallestCl,'attempts', 1, 'rndseed', 0+rseed);
+        [R, sumer, R_ref, sumer_ref] = bisect_agglodip(X, numberOfInitialClusters,'merge_struct', split_struct{m}, 'merge_trials', merge_trials, 'mergeSELECT', 1, 'splitMODE', 0, 'refineMODE', 0, 'smallest_cluster', smallestCl, 'attempts', 1, 'rndseed', 0+rseed);
         toc;
         disp(' ');      
 %         % % the next two variables can be used in all of the below methods to

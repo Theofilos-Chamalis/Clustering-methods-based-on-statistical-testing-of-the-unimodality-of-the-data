@@ -25,8 +25,8 @@ addpath(genpath('wgPlot'));
 % add this path only if you have Global kmeans code
 %addpath(genpath('Global_kmeans'));
             
-%%% open important files [optional]
-% files to run frameworks' algorithms
+% open the file that runs the
+% frameworks' algorithms
 edit('bistest.m');
 
 % main files that call the clustering algorithms

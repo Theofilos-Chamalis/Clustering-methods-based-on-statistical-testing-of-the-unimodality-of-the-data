@@ -326,7 +326,7 @@ function [R, min_err, R_ref, min_err_ref] = bisect_agglodip (X, numberOfInitialC
 
                                         Dtemp = [Dtemp1;Dtemp2];
 
-                                       [cluster_eval2(i), pval2(i)] = test_unimodal_cluster2 (Dtemp, nboot, exhaustive_search, voting,boot_dips);
+                                       [cluster_eval2(i), pval2(i)] = test_unimodal_cluster2 (Dtemp, nboot, boot_dips);
                                        clear Xtemp Xtemp1 Xtemp2 Xtlength Xtlength1 Xtlength2 gIdXtemp gIdXtemp1 gIdXtemp2 ctemp ctemp1 ctemp2 Dtemp Dtemp1 Dtemp2; 
                                     else
                                         [cluster_eval2(i), pval2(i)] = test_unimodal_cluster (D(tempclmemberIDs(:),tempclmemberIDs(:)), nboot, exhaustive_search, voting,boot_dips);

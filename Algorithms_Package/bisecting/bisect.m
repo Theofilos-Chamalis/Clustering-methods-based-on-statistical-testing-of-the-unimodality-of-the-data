@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------
 % This function implements the bisecting k-means clustering algorithm.
 %------------
@@ -35,6 +36,8 @@
 %------------
 % Copyright (C) 2009-2013, Argyris Kalogeratos.
 %------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function [bestclmemberIDs, bestgIdx, bestc, minEr] = bisect (X, splitMODE, splittrials, seed, varargin)
 
 [n, d]  = size(X);
